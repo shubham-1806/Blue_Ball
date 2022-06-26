@@ -13,7 +13,7 @@ let left_key=0;
 
 const canvas = document.getElementById('canvas');
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.height = window.innerHeight-50;
 
 canvas_stack = new CanvasStack('canvas');
 
@@ -129,8 +129,4 @@ document.addEventListener('keypress', (event) => {
         right_key=1;
     }
 });
-
-
-
-
 
