@@ -1,4 +1,3 @@
-
 function generateRandom(min,max) {
     let difference = max - min;
     let rand = Math.random();
@@ -120,18 +119,18 @@ create_platform(20,canvas.height);
 
 draw_the_ball(0,0);
 
-document.onkeydown = checkKey;
-
-function checkKey(e) {
-
-    e = e || window.event;
-    if (e.keyCode == '37') {
-       right_key=1;
+document.addEventListener('keypress', (event) => {
+    console.log("hi");
+    var code = event.code;
+    if(code==37){
+        left_key=1;
     }
-    else if (e.keyCode == '39') {
-       left_key=1;
+    else if(code==39){
+        right_key=1;
     }
+});
 
-}
+
+
 
 
