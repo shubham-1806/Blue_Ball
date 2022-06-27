@@ -62,8 +62,6 @@ function drawplat(x,y,prev_x,prev_y){
 function create_platform(x,y){
     let prev_x=x;
     let prev_y=y;
-    drawplat(x,y,prev_x,prev_y);
-    y+=plat_speed;
     moving_plat=setInterval(()=>{
         drawplat(x,y,prev_x,prev_y);
         prev_x=x;
@@ -92,7 +90,7 @@ function drawb(x,y) {
 }
 
 
-function draw_the_ball(dx,dy){
+function draw_the_ball(){
     moving_ball=setInterval(()=>{
         if(ball.oy<=ball.r || ball.oy>=canvas.height-ball.r){
             swal({
@@ -104,29 +102,32 @@ function draw_the_ball(dx,dy){
             })
         }
         drawb(ball.ox,ball.oy);
-        ball.ox+=(dx+right_speed*right_key+left_key*left_speed);
-        ball.oy+=(dy+grav*(!ball_touching)+plat_speed*ball_touching);
-        if(plats_map_y.get((ball.oy+ball.r)).includes(ball.ox)){
-            ball_touching=1;
-        }
-        else{
-            ball_touching=0;
+        ball.ox+=(right_speed*right_key+left_key*left_speed);
+        ball.oy+=(grav*(!ball_touching)+plat_speed*ball_touching);
+        for(let j=0;j<=ball.r;j++){
+            if(plats_map_y.get((ball.oy+j)).includes(ball.ox)){
+                ball_touching=1;
+            }
+            else{
+                ball_touching=0;
+            }
         }
     },5);
 }
 
-create_platform(20,canvas.height);
+create_platform(0,canvas.height);
 
-draw_the_ball(0,0);
+draw_the_ball();
 
 document.addEventListener('keypress', (event) => {
-    console.log("hi");
     var code = event.code;
-    if(code==37){
+    if(code==65){
         left_key=1;
     }
-    else if(code==39){
+    else if(code==68){
         right_key=1;
     }
 });
+
+
 
