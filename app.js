@@ -6,9 +6,20 @@ function generateRandom(min,max) {
     return rand;
 }
 
+function draw_spike(){
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.fillStyle = 'red';
+    for(let j= 0 ; j<=canvas.width ;j+=60){
+        ctx.lineTo(j+30,30);
+        ctx.lineTo(j+60,0);
+        ctx.fill();
+        ctx.moveTo(j+60,0)
+    }
+    ctx.fill();
+}
 
 document.addEventListener('keypress', (event) => {
-    console.log(event.code)
     if(event.code == "KeyA"){
         left_press= 1;
     }
@@ -30,7 +41,7 @@ document.addEventListener('keyup', (event) => {
 
 const canvas = document.getElementById('canvas')
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight-50;
+canvas.height = window.innerHeight;
 
 const ctx = canvas.getContext('2d')
 
@@ -56,8 +67,8 @@ function Circle(x,y,r,c) {
 
     this.animate = function () {
         this.y+=((!ball_touching)*this.dy + ball_touching*(-2))
-        this.x+=(left_press*(-2)+right_press*2);
-        if(this.y<= this.r || this.y>=canvas.height-this.r){
+        this.x+=(left_press*(-5)+right_press*5);
+        if(this.y<= (this.r+30) || this.y>=canvas.height-this.r){
             swal({
                 title: "Game Over",
                 icon: "error",
@@ -88,7 +99,7 @@ function Circle(x,y,r,c) {
     }
 }
 
-let ball = new Circle(40,40,30,'red');
+let ball = new Circle(40,70,30,'red');
 
 function draw_ball() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -113,11 +124,12 @@ function platform(x,y) {
     this.draw = function(){
         ctx.fillStyle = this.c;
         ctx.fillRect(this.x,this.y,this.w,this.h);
+        draw_spike();
     }
 
     this.animate = function () {
         this.y+=this.dy
-        if(this.y<=0){
+        if(this.y<=30){
             platform_arr.splice(platform_arr.indexOf(this),1)
         }
         else{

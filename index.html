@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <img src="bar.png" class="bar">
-    <canvas id="canvas"></canvas>
+    <div class="el">
+        <h1>Score : </h1>
+        <canvas id="canvas"></canvas>
+    </div>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="app.js"></script>
 </body>
@@ -20,23 +22,27 @@
     }
 
     canvas{
-        position: fixed;
-        top: 10%;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        position: absolute;
         overflow: hidden;
     }
+    
+    h1{
+        position: absolute;
+    }
 
+    .el{
+        position: relative;
+    }
 
-    .bar{
+    
+    /* .bar{
         width: 100%;
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         height: 50px;
-    }
+    } */
 
 </style>
 
