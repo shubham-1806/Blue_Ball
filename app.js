@@ -6,6 +6,10 @@ function generateRandom(min,max) {
     return rand;
 }
 
+let score=0;
+
+const score_obj=document.querySelector('#score');
+
 function draw_spike(){
     ctx.beginPath();
     ctx.moveTo(0,0);
@@ -67,12 +71,23 @@ function Circle(x,y,r,c) {
 
     this.animate = function () {
         this.y+=((!ball_touching)*this.dy + ball_touching*(-2))
-        this.x+=(left_press*(-5)+right_press*5);
+        let true_left=0;
+        let true_right=0;
+        if(this.x>=this.r+5){
+            true_left=1;
+        }
+        if(this.x<=canvas.width-5-this.r){
+            true_right=1;
+        }
+        this.x+=(true_left*left_press*(-5)+true_right*right_press*5);
         if(this.y<= (this.r+30) || this.y>=canvas.height-this.r){
+            clearInterval(kk);
+            draw_spike();
             swal({
+                icon: "success",
                 title: "Game Over",
-                icon: "error",
-                button: "Go Back!!"
+                text: `Total Score : ${score}`, 
+                button: "Go Back!!",
             }).then((result)=>{
                 clearAnimationFrame(draw_ball);
                 console.log("bye")
@@ -149,8 +164,10 @@ function add_plat(){
     platform_arr.push(new platform(generateRandom(0,canvas.width-302),canvas.height))
 }
 
-setInterval(function(){
+kk = setInterval(function(){
     add_plat();
+    score+=20;
+    score_obj.textContent=String(score);
 },1000)
 
 function init () {

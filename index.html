@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="el">
-        <h1>Score : </h1>
+        <div class="sc"><h1>Score : <span id="score">0</span></h1></div>
         <canvas id="canvas"></canvas>
     </div>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -26,8 +26,9 @@
         overflow: hidden;
     }
     
-    h1{
+    .sc{
         position: absolute;
+        top: 30px;
     }
 
     .el{
