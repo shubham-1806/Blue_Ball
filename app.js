@@ -84,13 +84,13 @@ function Circle(x,y,r,c) {
             clearInterval(kk);
             draw_spike();
             swal({
-                icon: "success",
+                type: 'warning',
                 title: "Game Over",
                 text: `Total Score : ${score}`, 
-                button: "Go Back!!",
+                confirmButtonText: 'Okay!!'
             }).then((result)=>{
                 clearAnimationFrame(draw_ball);
-                console.log("bye")
+                
             })
         }
         else{
