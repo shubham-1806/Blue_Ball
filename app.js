@@ -1,3 +1,11 @@
+function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+        currentDate = Date.now();
+    }   while (currentDate - date < milliseconds);
+}
+
 function generateRandom(min,max) {
     let difference = max - min;
     let rand = Math.random();
@@ -8,7 +16,10 @@ function generateRandom(min,max) {
 
 let score=0;
 
+let ded=false;
+
 const score_obj=document.querySelector('#score');
+const life_obj=document.querySelector('#life');
 
 function draw_spike(){
     ctx.beginPath();
@@ -54,6 +65,11 @@ let ball_touching =0;
 let right_press = 0;
 let left_press = 0;
 
+let lives=3;
+
+let is_paused=false;
+
+
 function Circle(x,y,r,c) {
     this.x=x;
     this.y=y;
@@ -81,17 +97,38 @@ function Circle(x,y,r,c) {
         }
         this.x+=(true_left*left_press*(-5)+true_right*right_press*5);
         if(this.y<= (this.r+30) || this.y>=canvas.height-this.r){
-            clearInterval(kk);
-            draw_spike();
-            swal({
-                type: 'warning',
-                title: "Game Over",
-                text: `Total Score : ${score}`, 
-                confirmButtonText: 'Okay!!'
-            }).then((result)=>{
-                clearAnimationFrame(draw_ball);
-                
-            })
+            if(lives==1){
+                clearInterval(kk);
+                life_obj.innerHTML="";
+                draw_spike();
+                if(score>parseInt(localStorage.getItem(localStorage.name))){
+                    localStorage.setItem(localStorage.name,String(score));
+                }
+                swal({
+                    type: 'warning',
+                    title: "Game Over",
+                    text: `Total Score : ${score}`, 
+                    confirmButtonText: 'Okay!!'
+                }).then((result)=>{
+                    location.href = "index.html";
+                })
+            }
+            else{
+                lives-=1;
+                draw_spike();
+                let hearts="";
+                for(let i=0;i<lives;i++){
+                    hearts+="&#9829;"
+                }
+                life_obj.innerHTML=String(hearts);
+                this.x=canvas.width/2;
+                this.y=canvas.height/2;
+                ded=true;
+                setTimeout(()=>{
+                    ded=false;
+                    this.draw();
+                },2000);
+            }
         }
         else{
             let flag=false;
@@ -118,10 +155,11 @@ let ball = new Circle(40,70,30,'red');
 
 function draw_ball() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ball.animate();
+    if(!ded){
+        ball.animate();
+    }
     requestAnimationFrame(draw_ball);
 }
-
 
 var platform_arr =[]
 
@@ -165,12 +203,15 @@ function add_plat(){
 }
 
 kk = setInterval(function(){
-    add_plat();
-    score+=20;
-    score_obj.textContent=String(score);
+    if(!is_paused){
+        add_plat();
+        score+=20;
+        score_obj.textContent=String(score);
+    }
 },1000)
 
 function init () {
+    life_obj.innerHTML='&#9829;&#9829;&#9829;'
     draw_ball();
     draw_plat();  
 }
