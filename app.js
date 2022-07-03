@@ -76,7 +76,7 @@ function Circle(x,y,r,c) {
     this.r=r;
     this.c=c;
 
-    this.dy = 2;
+    this.dy = 3;
 
     this.draw = function(){
         ctx.beginPath();
@@ -137,7 +137,7 @@ function Circle(x,y,r,c) {
                 }
                 life_obj.innerHTML=String(hearts);
                 this.x=canvas.width/2;
-                this.y=canvas.height/2;
+                this.y=100;
                 ded=true;
                 setTimeout(()=>{
                     ded=false;
@@ -166,7 +166,7 @@ function Circle(x,y,r,c) {
     }
 }
 
-let ball = new Circle(40,70,30,'blue');
+let ball = new Circle(canvas.width/2,100,30,'blue');
 
 function draw_ball() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -254,7 +254,7 @@ kk = setInterval(function(){
         console.log("created");
         console.log(life_arr);
     }
-},1000)
+},2000);
 
 function init () {
     life_obj.innerHTML='&#9829;&#9829;&#9829;'
