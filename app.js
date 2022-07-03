@@ -117,13 +117,16 @@ function Circle(x,y,r,c) {
                 if(score>parseInt(localStorage.getItem(localStorage.name))){
                     localStorage.setItem(localStorage.name,String(score));
                 }
+                setTimeout(()=>{
+                    window.location = "index.html"
+                },5000);
                 swal({
                     title: "Game Over",
-                    text: `Total Score : ${score}`, 
-                    button: "Go Back!!",
-                }).then(function () {
-                    window.location = "index.html";
+                    text: `Total Score : ${score}`
                 })
+                .then(function(){
+                    window.location="index.html"
+                });
             }
             else{
                 lives-=1;
@@ -163,7 +166,7 @@ function Circle(x,y,r,c) {
     }
 }
 
-let ball = new Circle(40,70,30,'red');
+let ball = new Circle(40,70,30,'blue');
 
 function draw_ball() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -206,7 +209,7 @@ function platform(x,y) {
     this.dy = -2;
 
     this.draw = function(){
-        ctx.fillStyle = this.c;
+        ctx.fillStyle = 'red';
         ctx.fillRect(this.x,this.y,this.w,this.h);
         draw_spike();
     }

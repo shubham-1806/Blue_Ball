@@ -15,6 +15,7 @@
             <li><div><button href="leaderboard_level.html" type="button" class="btn btn-dark but2" style="height:40px; width:200px;" id="leader_board">Leaderboard</button></div></li>
         </ul>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
         document.getElementById("new_game").onclick = function () {
             location.href = "newentry.html";
@@ -25,9 +26,15 @@
         };
 
         document.getElementById("instructions").onclick = function () {
-            location.href = "instructions.html";
+            swal({
+                title: "INSTRUCTIONS",
+                text: "Use the keys W and D to move left and right. Avoid the spikes and falling down without a platform to land on. Watch out for health pickups.", 
+                button: "Go Back!!",
+            }).then(function () {
+                window.location = "index.html";
+            })
         };
-    
+
     </script>
 </body>
 </html>
