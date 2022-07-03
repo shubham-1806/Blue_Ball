@@ -65,7 +65,7 @@ let ball_touching =0;
 let right_press = 0;
 let left_press = 0;
 
-let lives=3;
+let lives=3
 
 let is_paused=false;
 
@@ -96,6 +96,19 @@ function Circle(x,y,r,c) {
             true_right=1;
         }
         this.x+=(true_left*left_press*(-5)+true_right*right_press*5);
+        for(let i=0;i<life_arr.length;i++){
+            if(Math.abs(this.x-life_arr[i].x)<= (this.r+life_arr[i].r) && Math.abs(this.y - life_arr[i].y)<= (this.r+life_arr[i].r)){
+                console.log("here");
+                lives=Math.min(lives+1,3);
+                life_arr.splice(i,1);
+                let hearts="";
+                for(let i=0;i<lives;i++){
+                    hearts+="&#9829;"
+                }
+                life_obj.innerHTML=String(hearts);
+                break;
+            }
+        }
         if(this.y<= (this.r+30) || this.y>=canvas.height-this.r){
             if(lives==1){
                 clearInterval(kk);
@@ -105,12 +118,11 @@ function Circle(x,y,r,c) {
                     localStorage.setItem(localStorage.name,String(score));
                 }
                 swal({
-                    type: 'warning',
                     title: "Game Over",
                     text: `Total Score : ${score}`, 
-                    confirmButtonText: 'Okay!!'
-                }).then((result)=>{
-                    location.href = "index.html";
+                    button: "Go Back!!",
+                }).then(function () {
+                    window.location = "index.html";
                 })
             }
             else{
@@ -165,6 +177,25 @@ var platform_arr =[]
 
 platform_arr.push(new platform(0,canvas.height))
 
+let life_arr = [];
+
+function life_pickup(x,y,r,c){
+    this.x=x;
+    this.y=y;
+    this.r=r;
+    this.c=c;
+
+    this.draw = function(){
+        ctx.beginPath();
+        ctx.fillStyle = this.c;
+        ctx.arc(this.x,this.y,this.r,0,Math.PI * 2);
+        ctx.fill();
+    }
+
+    this.animate = function () {
+        this.draw();
+    }
+}
 
 function platform(x,y) {
     this.x=x;
@@ -198,15 +229,27 @@ function draw_plat() {
     requestAnimationFrame(draw_plat);
 }
 
+function draw_life_pickup(){
+    for(let i=0;i<life_arr.length;i++){
+        life_arr[i].animate();
+    }
+    requestAnimationFrame(draw_life_pickup);
+}
+
 function add_plat(){
     platform_arr.push(new platform(generateRandom(0,canvas.width-302),canvas.height))
 }
 
 kk = setInterval(function(){
-    if(!is_paused){
-        add_plat();
+    add_plat();
+    if(!ded){
         score+=20;
         score_obj.textContent=String(score);
+    }
+    if(score%500==0 && life_arr.length<2){
+        life_arr.push(new life_pickup(generateRandom(5,canvas.width-5),generateRandom(100,canvas.height-100),5,'green'));
+        console.log("created");
+        console.log(life_arr);
     }
 },1000)
 
@@ -214,6 +257,7 @@ function init () {
     life_obj.innerHTML='&#9829;&#9829;&#9829;'
     draw_ball();
     draw_plat();  
+    draw_life_pickup();
 }
 
 init();
