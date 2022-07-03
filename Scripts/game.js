@@ -118,14 +118,14 @@ function Circle(x,y,r,c) {
                     localStorage.setItem(localStorage.name,String(score));
                 }
                 setTimeout(()=>{
-                    window.location = "index.html"
+                    window.location = "../index.html"
                 },5000);
                 swal({
                     title: "Game Over",
                     text: `Total Score : ${score}`
                 })
                 .then(function(){
-                    window.location="index.html"
+                    window.location="../index.html"
                 });
             }
             else{
